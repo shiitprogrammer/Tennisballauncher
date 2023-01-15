@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 from sympy import symbols, Eq, solve , exp , sin , cos
 from scipy.optimize import fsolve
 
+
 #####DATA######
 #math constants 
 pi = 3.14159265359 
@@ -27,16 +28,12 @@ cor = 0.66666
 cof = 0.72
 
 #launcher constants
-theta = 10*pi/180
+
 s0 = 1
 
 #########################
 
-global xend
-xend = 13
-global xbounce
-xbounce = 0.66 * xend
-global v0
+global distance 
 
 
 
@@ -103,8 +100,8 @@ def calculating(theta, v0):
     i = variables[2]
  
     while (xend - x[i-1] > 0):
-        if xend - x[i-1] > 0.5:
-            v0 = v0 + 0.5
+        if xend - x[i-1] > 0:
+            v0 = v0 + 0.2
             projecting(v0 , theta)
             variables = projecting(v0 , theta)
             x = variables[0]
@@ -112,18 +109,16 @@ def calculating(theta, v0):
             i = variables[2]
             print(x[i-1], v0 , theta/(pi/180))
             
-        if xend - x[i-1] < 0.5:
-            theta = theta + 1*pi/180
-            projecting(v0 , theta)
-            variables = projecting(v0 , theta)
-            x = variables[0]
-            y = variables[1]
-            i = variables[2]
-            print(x[i-1], v0 , theta/(pi/180))
         
     return(x, y, theta, i , v0)
 
-def start_program():
+def start_program(distance,angle):
+    global xend
+    global xbounce
+    global theta
+    xend = int(distance)
+    xbounce = cor * xend
+    theta = int(angle)*(pi/180)
     v0 = first_bounce(xbounce)
     data_after_calc = calculating(theta, v0)
     v0 = data_after_calc[4]
@@ -132,17 +127,8 @@ def start_program():
     yimpact = data_after_calc[1]
     ximpact = data_after_calc[0]
 
-    print(ximpact[i-1], angle /(pi/180), v0)
+    print(ximpact[i-1],v0 , angle /(pi/180))
     df = pd.DataFrame(list(zip(ximpact,yimpact)),
             columns = ['xdata','ydata'])
+    return(v0)
 
-if __name__ == "__main__":
-    print('''
-  _____                _     _           _ _                        _               
- |_   _|__ _ __  _ __ (_)___| |__   __ _| | | __ _ _   _ _ __   ___| |__   ___ _ __ 
-   | |/ _ \ '_ \| '_ \| / __| '_ \ / _` | | |/ _` | | | | '_ \ / __| '_ \ / _ \ '__|
-   | |  __/ | | | | | | \__ \ |_) | (_| | | | (_| | |_| | | | | (__| | | |  __/ |   
-   |_|\___|_| |_|_| |_|_|___/_.__/ \__,_|_|_|\__,_|\__,_|_| |_|\___|_| |_|\___|_|   
-                                                                                      ''')
-
-    start_program()
