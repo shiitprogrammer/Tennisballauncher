@@ -24,7 +24,7 @@ def header():
                                                                                       ''')
 
 
-arduino = serial.Serial(port='COM3',baudrate=9600,timeout=1)
+arduino = serial.Serial(port='COM3',baudrate=115200,timeout=1)
 path = 'C:/'
 host_name = socket.gethostname()
 host_ip = socket.gethostbyname(host_name)

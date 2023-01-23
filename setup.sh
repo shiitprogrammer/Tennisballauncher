@@ -4,4 +4,4 @@ pip install matplotlib
 pip install sympy
 pip install scipy
 pip install argparse
-pip install serial
+pip install pyserial
