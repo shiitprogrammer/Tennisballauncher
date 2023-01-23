@@ -19,7 +19,7 @@ def write_read(x):
   return data
 def header():
     
-    title = pyfiglet.figlet_format('Tennisballauncher', font='weird')
+    title = pyfiglet.figlet_format('Tennisballauncher', font='roman')
     console.print(title,style="red")
 
 
