@@ -100,15 +100,23 @@ def calculating(theta, v0):
     i = variables[2]
  
     while (xend - x[i-1] > 0):
-        if xend - x[i-1] > 0:
-            v0 = v0 + 0.2
+        if xend - x[i-1] > 0.1:
+            v0 = v0 + 0.1
             projecting(v0 , theta)
             variables = projecting(v0 , theta)
             x = variables[0]
             y = variables[1]
             i = variables[2]
             print(x[i-1], v0 , theta/(pi/180))
-            
+    while (xend - x[i-1] < 0):
+        if xend - x[i-1] < 0.1:
+            v0 = v0 - 0.1
+            projecting(v0 , theta)
+            variables = projecting(v0 , theta)
+            x = variables[0]
+            y = variables[1]
+            i = variables[2]
+            print(x[i-1], v0 , theta/(pi/180))        
         
     return(x, y, theta, i , v0)
 
@@ -128,7 +136,8 @@ def start_program(distance,angle):
     ximpact = data_after_calc[0]
 
     print(ximpact[i-1],v0 , angle /(pi/180))
+    rpm = ((v0 /(r*0.5))/(2*pi))*60
     df = pd.DataFrame(list(zip(ximpact,yimpact)),
             columns = ['xdata','ydata'])
-    return(v0)
+    return(rpm)
 
