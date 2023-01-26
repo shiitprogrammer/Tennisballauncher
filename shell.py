@@ -64,6 +64,6 @@ while program == 1:
       angle = input("Angle:")
     if code == 'rpm':
       rpmdata = (write_read(input('Rpm:')))
-      print(rpmdata)
+      print(rpmdata.decode("utf-8"))
     
     
