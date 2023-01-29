@@ -5,3 +5,5 @@ pip install sympy
 pip install scipy
 pip install argparse
 pip install pyserial
+pip install rich
+pip install pyfiglet
