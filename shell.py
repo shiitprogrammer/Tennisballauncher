@@ -60,8 +60,11 @@ while program == 1:
   if x[0] == 'angle' or x == 'a':
         angle = x[1]
   if x[0] == 'rpm':
+        
         rpmdata = (write_read(x[1]))
+          
         received = rpmdata.decode("utf-8")
+        
         print(received)
     
       
