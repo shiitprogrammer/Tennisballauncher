@@ -11,6 +11,7 @@ import time
 from datetime import datetime
 from rich.console import Console, Group
 from rich import print 
+from serial.tools import list_ports
 
 
 os.system('cls')
@@ -38,14 +39,16 @@ def header():
     console.rule(f"[bold magenta] {datetime.now().ctime()}")
 
 
-arduino = serial.Serial(port='COM3',baudrate=115200,timeout=1)
-path = 'C:/'
-host_name = socket.gethostname()
-host_ip = socket.gethostbyname(host_name)
-
 header()
 program = 1
 while program == 1:
+  ports = list_ports.comports()
+  for port in ports: print(port)
+  arduino_port = input("arduino com port?")
+  arduino = serial.Serial(port=arduino_port,baudrate=115200,timeout=1)
+  path = 'C:/'
+  host_name = socket.gethostname()
+  host_ip = socket.gethostbyname(host_name)
   txt = input(">>>")
   x = txt.split()
 
