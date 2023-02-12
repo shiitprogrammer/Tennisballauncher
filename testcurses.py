@@ -1,5 +1,4 @@
 import curses 
-import time
 from datetime import datetime
 from curses.textpad import Textbox, rectangle
 from curses import wrapper
@@ -12,6 +11,7 @@ import time
 import os
 import Launcher
 import serial
+
 
 
 title = """
@@ -48,8 +48,10 @@ def main(stdscr):
    ####################INPUT####################
     bottom = curses.newwin(1, 20, 29, 0)
     k = 1
-    type = ""
+
     while True: 
+
+      stdscr.refresh()
       bottom.clear()
       bottom.addstr("[Idle]")
       bottom.refresh()
@@ -60,6 +62,23 @@ def main(stdscr):
          k = 1
       if key == 'q':
          break
+      if key == 'c':
+         bottom.clear()
+         bottom.addstr("[Var Input]")
+         bottom.refresh()
+         inputwin = curses.newwin(1,15,9+k,12)
+         
+         stdscr.addstr(9+k,1,"COM PORT>>>", curses.color_pair(1))
+         box = Textbox(inputwin)
+         stdscr.refresh()
+         box.edit()
+         com_port = box.gather().strip()
+         arduino = serial.Serial(port=com_port, baudrate=9600, timeout=0.1)
+         stdscr.addstr(29,45,("COM_PORT:"))
+         stdscr.addstr(29,58, com_port)
+         inputwin.clear()
+
+         inputwin.refresh()
       if key == 'd':
          bottom.clear()
          bottom.addstr("[Var Input]")
@@ -95,32 +114,32 @@ def main(stdscr):
          stdscr.refresh()
          inputwin.refresh()
       if key == 's':
-       bottom.clear()
-       bottom.addstr("[Calculating]")  
-       bottom.refresh()
-       rpm = int(Launcher.start_program(distance,angle))
-       displayrpm = str(rpm)
-       stdscr.addstr(12,45,("Rpm required:"), curses.color_pair(2))
-       stdscr.addstr(12,58, displayrpm, curses.color_pair(2))
-       stdscr.refresh()
+         bottom.clear()
+         bottom.addstr("[Calculating]")  
+         bottom.refresh()
+         rpm = int(Launcher.start_program(distance,angle))
+         displayrpm = str(rpm)
+         stdscr.addstr(12,45,("Rpm required:"), curses.color_pair(2))
+         stdscr.addstr(12,58, displayrpm, curses.color_pair(2))
+         stdscr.refresh()
       else:
-        bottom.clear()
-        bottom.addstr("[Text Input]")
-        bottom.refresh()
-        text = ""
-        inputwin = curses.newwin(1,15,9+k,4)
-        stdscr.addstr(9+k,1,">>>", curses.color_pair(1))
-        stdscr.refresh()
-        box = Textbox(inputwin)
-        stdscr.refresh()
-        box.edit()
-        text = box.gather().strip()
-
-        inputwin.clear()
-        inputwin.addstr((text), curses.color_pair(2))
-        inputwin.refresh()
-          
-        k = k + 1
+         bottom.clear()
+         bottom.addstr("[Text Input]")
+         bottom.refresh()
+         text = ""
+         inputwin = curses.newwin(1,15,9+k,4)
+         stdscr.addstr(9+k,1,">>>", curses.color_pair(1))
+         stdscr.refresh()
+         box = Textbox(inputwin)
+         stdscr.refresh()
+         box.edit()
+         text = box.gather().strip()
+         arduino.write(text.encode("utf-8"))
+         inputwin.clear()
+         inputwin.addstr((text), curses.color_pair(2))
+         inputwin.refresh()
+            
+         k = k + 1
     
 
 
